@@ -17,6 +17,14 @@ class CreateTransactionService {
   public execute({title, value, type}: Request): Transaction {
     const { total } = this.transactionsRepository.getBalance();
 
+    // if ( type !== 'income' &&  type !== 'outcome'){
+    //   throw new Error("Tipo incorreto");
+    // }
+
+    if(!["income", "outcome"].includes(type)){
+      throw new Error("Tipo incorreto");
+    }
+
     if ( type === 'outcome' && value > total){
       throw new Error("Sem saldo!");
     }
